@@ -2,6 +2,7 @@ import pygame
 import random
 import math
 from pygame.locals import *
+from point import Point
 
 def main():
 	pygame.init()
@@ -14,7 +15,7 @@ def main():
 	
 	#setup display
 	screen = pygame.display.set_mode((1200, 400))
-	pygame.display.set_caption('mid point displacemnt algorithm 2d')
+	pygame.display.set_caption('Mid-Point Displacemnt Algorithm 2D')
 	pygame.mouse.set_visible(1)
 	
 	background = pygame.Surface(screen.get_size())
@@ -39,14 +40,14 @@ def main():
 		pygame.display.update()
 
 '''
-	create a randomLinkedList of Line as seeds
+	create a randomLinkedList of Point as seeds
 '''
 def randomLinkedList(numberOfNodes,rangeOf_y):
-	head = Line()
+	head = Point()
 	head.set_y_val(random.random()*rangeOf_y)
 	temp = head
 	while numberOfNodes > 0:
-		temp.setNext(Line())
+		temp.setNext(Point())
 		temp = temp.getNext()
 		temp.set_y_val(random.random()*rangeOf_y)
 		numberOfNodes -= 1
@@ -70,7 +71,7 @@ def drawLinesToScreen(node, background,uphillColor,DownhillColor,diff_x,screenPo
 '''
 def addNodes(node,run,roughConstant):
 	while node.getNext() is not None:
-		newNode = Line()
+		newNode = Point()
 		averageRandom = (node.get_y_val() + node.getNext().get_y_val())/2 + 200 *random.random() * roughConstant * math.pow(2,-run*roughConstant)
 		newNode.set_y_val(averageRandom)
 		newNode.setNext(node.getNext())
@@ -97,30 +98,4 @@ def printNodes(node):
 	a = a + "]"
 	return a
 
-'''
-class : linked list
-description : node for storing a point
-properties : None
-methods :
-	setNext(node)
-	getNext()
-	set_y_val(y)
-	get_y_val()
-'''
-class Line:
-	def __init__(self):
-		self.y = 0
-		self.next = None
-		return
-	def setNext(self, node):
-		if isinstance(node,Line):
-			self.next = node
-		return
-	def getNext(self):
-		return self.next
-	def get_y_val(self):
-		return self.y
-	def set_y_val(self,y):
-		self.y = y
-	
 main()
